@@ -1,0 +1,57 @@
+<div *ngIf="entries.length > 0; else emptyTemplate">
+  <div>
+    *ngFor="let item of entries"
+    <ng-container
+      *NgTemplateOutlet="horizontalTemplate;context:{id:item.id,categoryName:item.category.name,date:item.date,title:item.title,userName:item.userName}"
+    >
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #emptyTemplate>
+  <div class="alert lart-danger" role="alert">Entry bulunamadı.......</div>
+</ng-template>
+
+<pagination-controls
+  [responsive]="true"
+  (pageChange)="pageChanged($event)"
+  previousLabel="geri"
+  nextLabel="ileri"
+></pagination-controls>
+
+<ng-template
+  let-title="title"
+  let-date="date"
+  let-categoryName="categoryName"
+  let-userName="userName"
+  let-id="id"
+  #horizontalTemplate
+>
+  <div class="card bg-light border-danger">
+    <div class="card-body">
+      <h5 class="card-title">{{ title }}</h5>
+
+      <div class="card-footer bg-transparent border-danger">
+        <span class="badge badge-pill badge-dark">
+          <i class="fa fa-calendar"></i>{{ date | date: "dd.MM.yyyy" }}
+        </span>
+        <span class="mr-1"></span>
+        <span class="badge badge-pill badge-danger">
+          <i class="fa fa-folder"></i>{{ categoryName }}
+        </span>
+        <span class="mr-1"></span>
+        <span class="badge badge-pill badge-danger">
+          <i class="fa fa-user"></i>{{ userName }}
+        </span>
+        <a
+          [routerLink]="['/entry', id]"
+          class="btn btn-danger btn-sm float-right"
+        >
+          incele
+        </a>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+
